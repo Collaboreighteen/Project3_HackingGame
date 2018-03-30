@@ -10,7 +10,7 @@
 # Count numer of correct characters in position
 # Limit to 3 attempts
 
-
+import random
 
 def evalGuess(guess):
 	correct = 0
@@ -19,7 +19,7 @@ def evalGuess(guess):
 		if guess.find(l) == answer.find(l):
 			correct = correct + 1
 
-	print(correct)
+	print("You have "+str(correct)+"/7 correct")
 
 wordList = [
 	"provide",
@@ -37,15 +37,34 @@ wordList = [
 	"putting"
 ]
 
-answer = wordList[0]
+answer = random.choice(wordList)
+print(answer)
 
-guess = input("Can you guess the word?\n")
+guessNum = 0
+end = False
 
-guess = [word for word in wordList if guess == word]
+print(wordList)
 
-if guess == []:
-	print("That is not one of the words")
-if guess[0] == answer:
-	print("YOu win!")
-else:
-	evalGuess(guess[0])
+while (guessNum < 3 and end != True):
+	guessLeft = 3 - guessNum
+
+	if guessLeft == 3:
+		guess = input("You have 3 tries to guess the word from this list. Enter your first guess\n")
+	else:
+		guess = input("Try again. You have " + str(guessLeft) + " guesses left\n")
+
+	guess = [word for word in wordList if guess == word]
+
+	if guess == []:
+		print("That is not one of the words. You have " + str(guessLeft - 1) + " guesses left\n")
+
+	if guess != []:
+		if guess[0] == answer:
+			print("YOu win!")
+			end = True
+		else:
+			evalGuess(guess[0])
+			
+	guessNum = guessNum + 1
+
+print("Game over!\nThe answer was " + str(answer))
